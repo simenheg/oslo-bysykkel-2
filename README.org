@@ -1,0 +1,5 @@
+* Demo av Oslo Bysykkel API
+** Bruk
+   Åpne ~index.html~. Hvis alt gikk i orden bør det se omtrent slik ut:
+
+   [[file:screenshot.png][file:screenshot.png]]

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="nb">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Oslo Bysykkel</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Oslo Bysykkel</h1>
+      <div class="app-status" v-html="status">
+      </div>
+      <ul class="stations">
+        <station v-for="station in stations"
+                 v-bind:station="station"
+                 v-bind:key="station.station_id">
+        </station>
+      </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
