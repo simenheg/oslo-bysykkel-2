@@ -3,6 +3,16 @@
     <h1>Oslo Bysykkel</h1>
     <div class="app-status" v-html="status">
     </div>
+    <div class="map">
+      <l-map :zoom="zoom" :center="center">
+        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+        <l-marker v-for="marker in markers"
+                  :lat-lng="marker.latlng"
+                  v-bind:key="marker.id">
+          <l-popup :content="marker.text"></l-popup>
+        </l-marker>
+      </l-map>
+    </div>
     <ul class="stations">
       <station v-for="station in stations"
                v-bind:station="station"
@@ -15,6 +25,7 @@
 <script>
  import Station from './components/Station.vue';
  import Vue from 'vue';
+ import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet';
 
  /**
   * API URL base.
@@ -42,11 +53,14 @@
          return {
              status: 'Henter stasjoner …',
              stations: {},
+             zoom: 13,
+             center: L.latLng(59.919154, 10.746285),
+             url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+             attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+             markers: {},
          }
      },
-     components: {
-         Station,
-     },
+     components: { Station, LMap, LTileLayer, LMarker, LPopup },
      methods: {
          /**
           * Display the text `status` to the user.
@@ -64,6 +78,11 @@
                      json.data.stations.forEach(station => {
                          station.status = {};
                          Vue.set(this.stations, station.station_id, station);
+                         Vue.set(this.markers, station.station_id, {
+                             latlng: L.latLng(station.lat, station.lon),
+                             text: station.name,
+                             id: station.station_id,
+                         });
                      });
                  });
              });
@@ -75,8 +94,13 @@
          refreshStatus () {
              return fetch(statusURL).then(res => {
                  res.json().then(json => {
-                     json.data.stations.forEach(station => {
-                         Vue.set(this.stations[station.station_id], 'status', station);
+                     json.data.stations.forEach(status => {
+                         const station = this.stations[status.station_id];
+                         Vue.set(station, 'status', status);
+                         Vue.set(this.markers[status.station_id], 'text',
+                                 `${station.name}<br>
+                                  🚲 ${status.num_bikes_available}
+                                  🔒 ${status.num_docks_available}`);
                      });
 
                      const time = new Date().toLocaleTimeString('nb');
@@ -108,6 +132,12 @@
  .app-status {
      margin: 2rem;
      color: #666;
+ }
+
+ .map {
+     margin: 2rem auto;
+     max-width: 800px;
+     height: 400px;
  }
 
  @keyframes pulse {
