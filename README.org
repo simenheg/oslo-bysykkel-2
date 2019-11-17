@@ -18,3 +18,27 @@
    #+BEGIN_SRC bash
      $ yarn run test
    #+END_SRC
+
+   Eksempelkjøring:
+
+   #+BEGIN_SRC text
+     yarn run v1.19.1
+     $ vue-cli-service test:unit
+     PASS tests/unit/tests.spec.js
+       App.vue
+         ✓ renders list of fetched stations (48ms)
+         ✓ renders error message on station fetch fail (4ms)
+         ✓ renders list of fetched station statuses (7ms)
+         ✓ renders error message on status fetch fail (5ms)
+       Station.vue
+         ✓ renders its name when passed (2ms)
+         ✓ renders number of available bikes when passed (2ms)
+         ✓ renders number of available docks when passed (1ms)
+
+     Test Suites: 1 passed, 1 total
+     Tests:       7 passed, 7 total
+     Snapshots:   0 total
+     Time:        1.448s
+     Ran all test suites.
+     Done in 3.13s.
+#+END_SRC
