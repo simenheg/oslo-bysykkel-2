@@ -1,5 +1,20 @@
 * Demo av Oslo Bysykkel API
+** Oppsett
+   #+BEGIN_SRC bash
+     $ yarn
+   #+END_SRC
+
 ** Bruk
-   Åpne ~index.html~. Hvis alt gikk i orden bør det se omtrent slik ut:
+   #+BEGIN_SRC bash
+     $ yarn run serve
+   #+END_SRC
+
+   Gå til ~http://localhost:8080/~. Hvis ting har gått i orden bør det
+   se omtrent slik ut:
 
    [[file:screenshot.png][file:screenshot.png]]
+
+** Testing
+   #+BEGIN_SRC bash
+     $ yarn run test
+   #+END_SRC
